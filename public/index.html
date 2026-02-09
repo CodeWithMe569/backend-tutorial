@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Users App</title>
+</head>
+
+<body>
+    <h2>add users</h2>
+
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="age" placeholder="Age">
+    <button onclick="addUser()">Add</button>
+
+    <hr>
+
+    <h2>Users</h2>
+    <ul id="list"></ul>
+
+    <script>
+        async function fetchUsers() {
+            const res = await fetch("/users");
+            const data = await res.json();
+
+            const list = document.getElementById('list');
+            list.innerHTML = "";
+
+            data.forEach(u => {
+                const li = document.createElement('li');
+
+                li.innerHTML = `
+                ${u.name || "no-name"} (${u.age} || "?")
+                <button onclick="del('${u._id}')">X</button>
+                `;
+
+                list.appendChild(li)
+            });
+        }
+
+        async function addUser() {
+            const name = document.getElementById("name").value;
+            const age = Number(document.getElementById("age").value);
+
+            await fetch("/users", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, age })
+            });
+
+            fetchUsers();
+        }
+
+
+        async function del(id) {
+            await fetch("/users/" + id, { method: "DELETE" });
+            fetchUsers();
+        }
+
+        fetchUsers();
+    </script>
+</body>
+
+</html>

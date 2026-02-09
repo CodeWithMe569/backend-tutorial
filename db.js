@@ -12,7 +12,6 @@ async function getDB() {
     await client.connect();
     db = client.db('learn-db');
 
-    console.log('MongDB Connected');
     return db;
 }
 

@@ -9,7 +9,7 @@ const PORT = 8080;
 
 app.use(express.json());
 
-app.route("/users", users);
+app.use("/users", users);
 
 app.use((err, req, res, next) => {
     console.error(err);

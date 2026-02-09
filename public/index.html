@@ -31,7 +31,7 @@
                 const li = document.createElement('li');
 
                 li.innerHTML = `
-                ${u.name || "no-name"} (${u.age} || "?")
+                ${u.name || "no-name"} (${u.age || "?"})
                 <button onclick="del('${u._id}')">X</button>
                 `;
 
